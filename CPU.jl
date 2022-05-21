@@ -1,6 +1,6 @@
 function CPU(regSize, memorySize, outputend=false)
-    registers::Matrix{Int64} = fill(0, (1,regSize+1))
-    memory::Matrix{Int64} = fill(0, (1,ceil(Integer, memorySize+1)))
+    registers::Matrix{Int64} = fill(0, (1,regSize))
+    memory::Matrix{Int64} = fill(0, (1,ceil(Integer, memorySize)))
     PC = 1
     function exec()
         if memory[PC] == 1
@@ -47,7 +47,7 @@ function CPU(regSize, memorySize, outputend=false)
                 PC += 4
             end
         elseif memory[PC] == 11
-            # output unicode character from register
+            # output number from register
             print(registers[memory[PC+1]+1])
             PC += 2
         elseif memory[PC] == 12
@@ -77,10 +77,10 @@ function CPU(regSize, memorySize, outputend=false)
             memory[i] = array[i]
         end
     end
-    return Dict("run" => run, "load" => load, "registers"=>registers, "memory"=>memory)
+    return Dict("run" => run, "load" => load, "registers" => registers, "memory" => memory)
 end
 
-myCPU = CPU(8,1000, true)
+myCPU = CPU(8, 1000, true)
 script = split(replace(replace((open(f->read(f, String), ARGS[1])), "\n"=>" "), "\r"=>""), " ")
 code = Array{Int, 1}()
 
