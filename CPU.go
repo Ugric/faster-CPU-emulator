@@ -92,21 +92,22 @@ func CPU(registerSize int64, memorySize int64) CPU_type {
 }
 
 func main() {
-	regsize, err := strconv.ParseInt(os.Args[2], 10, 64)
+	ARGS := os.Args
+	regsize, err := strconv.ParseInt(ARGS[2], 10, 64)
 	if err != nil {
 		log.Fatal(err)
 	}
-	memorysize, err := strconv.ParseInt(os.Args[3], 10, 64)
+	memorysize, err := strconv.ParseInt(ARGS[3], 10, 64)
 	if err != nil {
 		log.Fatal(err)
 	}
 	my_CPU := CPU(regsize, memorysize)
-	content, err := ioutil.ReadFile(os.Args[1])
+	content, err := ioutil.ReadFile(ARGS[1])
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	my_list_of_strings := strings.Split(strings.ReplaceAll(string(content), "\n", " "), " ")
+	my_list_of_strings := strings.Split(strings.ReplaceAll(strings.ReplaceAll(string(content), "\n", " "), "\r", ""), " ")
 	my_list_of_ints := make([]int64, len(my_list_of_strings))
 	for i := 0; i < len(my_list_of_strings); i++ {
 		my_list_of_ints[i], _ = strconv.ParseInt(my_list_of_strings[i], 10, 64)
